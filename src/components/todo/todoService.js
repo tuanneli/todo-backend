@@ -39,3 +39,4 @@ class TodoService {
 }
 
 module.exports = new TodoService();
+module.exports = new TodoService();

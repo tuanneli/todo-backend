@@ -24,7 +24,7 @@ class TodoController {
             try {
                 let {file} = req.files;
                 fileName = await uuid.v4() + file.name;
-                await file.mv(path.resolve(__dirname, '../../../static', fileName));
+                await file.mv(path.resolve(__dirname, '../../../public', fileName));
             } catch (e) {
                 console.log(e)
             }
@@ -59,7 +59,7 @@ class TodoController {
             try {
                 let {file} = req.files;
                 fileName = await uuid.v4() + file.name;
-                await file.mv(path.resolve(__dirname, '../../../static', fileName));
+                await file.mv(path.resolve(__dirname, '../../../public', fileName));
             } catch (e) {
                 console.log(e)
             }
@@ -94,7 +94,7 @@ class TodoController {
             }
             const todo = await Todo.findById(id);
             if (todo.file) {
-                fs.rmSync(path.resolve(__dirname, '../../../static', todo.file), {
+                fs.rmSync(path.resolve(__dirname, '../../../public', todo.file), {
                     force: true,
                 });
             }
