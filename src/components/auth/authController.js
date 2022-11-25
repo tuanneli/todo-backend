@@ -1,6 +1,7 @@
 const AuthService = require('./services/authService');
 const {validationResult, cookie} = require('express-validator');
 const ApiError = require('../../errors/ApiError');
+const jwt = require("jsonwebtoken");
 
 /**
  * Класс в котором хранятеся все CRUD методы для аутентификации
@@ -23,7 +24,7 @@ class AuthController {
             res.cookie('refreshToken', user.refreshToken, {
                 maxAge: 60 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                sameSite: "none",
+                // sameSite: "none",
                 // secure: true
             })
             return res.status(200).json(user);
@@ -47,7 +48,7 @@ class AuthController {
             res.cookie('refreshToken', user.refreshToken, {
                 maxAge: 60 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                sameSite: "none",
+                // sameSite: "none",
                 // secure: true
             })
             return res.status(200).json(user);
@@ -67,10 +68,21 @@ class AuthController {
             res.cookie('refreshToken', user.refreshToken, {
                 maxAge: 60 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                sameSite: "none",
+                // sameSite: "none",
                 // secure: true
             })
             return res.status(200).json(user);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async logout(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies;
+            const token = AuthService.logout(refreshToken);
+            res.clearCookie('refreshToken');
+            res.status(200).json(token);
         } catch (e) {
             next(e);
         }

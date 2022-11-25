@@ -80,6 +80,10 @@ class TokenService {
         }
         return data;
     }
+
+    async removeToken(refreshToken) {
+        return Token.deleteOne({refreshToken});
+    }
 }
 
 module.exports = new TokenService();

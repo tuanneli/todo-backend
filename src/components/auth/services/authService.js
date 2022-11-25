@@ -26,7 +26,7 @@ class AuthService {
             throw ApiError.badRequest('Такой пользователь уже зарегестрирован');
         }
         const hashPassword = bcrypt.hashSync(password, 5);
-        const user = await User.create({email, password: hashPassword}, role);
+        const user = await User.create({email, password: hashPassword, role});
         const userDto = new UserDto(user);
         const tokens = await TokenService.generateTokens({userDto});
         await TokenService.saveTokens(userDto.id, tokens.refreshToken);
@@ -88,6 +88,10 @@ class AuthService {
             user: userDto,
             ...tokens
         }
+    }
+
+    async logout(refreshToken) {
+        return TokenService.removeToken(refreshToken);
     }
 }
 

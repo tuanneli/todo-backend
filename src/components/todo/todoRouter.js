@@ -12,10 +12,12 @@ const TodoController = require('./todoController');
  */
 
 router.post('/create', [
-    check('text', 'Это поле не может быть пустым').notEmpty()
+    check('header', 'Поле заголовка не может быть пустым').notEmpty(),
+    check('description', 'Поле описания не может быть пустым').notEmpty(),
 ], TodoController.create);
 router.get('/find', TodoController.getAll);
 router.put('/change', TodoController.change);
+router.put('/check', TodoController.checkTodoIsDone);
 router.delete('/delete', TodoController.delete);
 
 module.exports = router;

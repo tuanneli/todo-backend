@@ -19,5 +19,6 @@ router.post('/login', [
     check('email', 'Почта не может быть пустой').notEmpty(),
 ], AuthController.login);
 router.get('/check', AuthController.check)
+router.get('/logout', AuthController.logout)
 
 module.exports = router;

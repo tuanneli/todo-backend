@@ -6,28 +6,34 @@ const ApiError = require('../../errors/ApiError')
  */
 
 class TodoService {
-    async create(text, userId) {
-        if (!text) {
-            throw ApiError.badRequest('Это поле не может быть пустым');
+    async create(header, description, date = "", file, userId) {
+        if (!header || !description) {
+            throw ApiError.badRequest('Заголовок и описание не могут быть пустыми');
         }
         if (!userId) {
             throw ApiError.notAuthorized();
         }
-        return Todo.create({text, userId})
+        return Todo.create({header, description, date, file, userId})
     }
 
-    async getAll(limit, offset, find = "") {
-        return Todo.find({text: {$regex: find, $options: 'i'}})
+    async getAll(limit, offset, find = "", userId) {
+        return Todo.find({text: {$regex: find, $options: 'i'}, userId})
             .limit(Number(limit))
             .skip(Number(offset))
     }
 
-    async change(id, text) {
-        await Todo.findByIdAndUpdate(id, {text});
+    async change(id, header, description, date = "", file) {
+        await Todo.findByIdAndUpdate(id, {header, description, date, file});
+        return Todo.findById(id);
+    }
+
+    async checkTodoIsDone(id, done) {
+        await Todo.findByIdAndUpdate(id, {done});
         return Todo.findById(id);
     }
 
     async delete(id) {
+        const todo = await Todo.findById(id);
         return Todo.findByIdAndDelete(id);
     }
 }

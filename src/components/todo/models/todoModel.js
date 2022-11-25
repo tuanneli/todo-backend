@@ -5,7 +5,11 @@ const {model, Schema} = require('mongoose');
  */
 
 const Todo = new Schema({
-    text: {type: String, required: true},
+    header: {type: String, required: true},
+    description: {type: String, required: true},
+    date: {type: String},
+    done: {type: Boolean, default: false},
+    file: {type: String},
     userId: {type: Schema.Types.ObjectId, ref: 'User'},
 });
 
