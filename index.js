@@ -14,7 +14,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(expressFileupload({}));
-// app.use(express.static(path.resolve(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL,
